@@ -1,0 +1,19 @@
+version: "3.7"
+
+services:
+    displaycameras:
+        image: displaycameras
+        devices:
+            - /dev/vchiq:/dev/vchiq
+            - /dev/fb0:/dev/fb0
+            - /dev/tty2:/dev/tty2
+        volumes:
+            - ./conf:/etc/displaycameras/:ro
+            - /opt/vc:/opt/vc
+        cap_add:
+            - SYS_TTY_CONFIG
+
+# docker-compose run --rm displaycameras
+
+# /dev/vchiq /opt/vc required for omxplayer
+# /dev/fb0 /dev/tty2 SYS_TTY_CONFIG required for fbi blanking
