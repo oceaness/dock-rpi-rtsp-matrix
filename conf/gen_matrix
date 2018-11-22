@@ -1,0 +1,39 @@
+#!/bin/sh
+
+display_width=`cat /sys/class/graphics/fb0/virtual_size | cut -d, -f1`
+display_height=`cat /sys/class/graphics/fb0/virtual_size | cut -d, -f2`
+
+columns=3
+rows=3
+offscreen=3
+
+column_width=$((display_width/columns))
+row_height=$((display_height/rows))
+
+for row in `seq 1 $rows`
+do
+	y1=$((row_height*(row-1)))
+	y2=$((row_height*row))
+	for col in `seq 1 $columns`
+	do
+		x1=$((column_width*(col-1)))
+		x2=$((column_width*col))
+		window_positions="$window_positions\"$x1 $y1 $x2 $y2\" \\\\\n"
+		windows="${windows}r${row}_c$col "
+	done
+done
+
+for i in `seq 1 $offscreen`
+do
+	x1=0
+	y1=$display_height
+	x2=$column_width
+	y2=$((y1+row_height))
+	window_positions="$window_positions\"$x1 $y1 $x2 $y2\" \\\\\n"
+done
+
+conf_file=layout.conf.default
+
+echo "windows=($windows)" > $conf_file
+printf "window_positions=(\n$window_positions)\n" >> $conf_file
+echo "camera_names=($windows)" >> $conf_file

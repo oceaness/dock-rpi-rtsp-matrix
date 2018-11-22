@@ -71,7 +71,7 @@
 # ignored as long as they are at the end of the array.
 
 # !!!! WARNING !!!!
-# Never, never, never configure window space with negative x or y positions!!!
+# Never configure window space with negative x or y positions!!!
 # Off screen to the left or above the primary monitor Window coordinates like
 # ""-960 0 -1 539" \" are broken.
 # omxplayer is documented as supporting them, but it creates broken playback in testing.
