@@ -9,11 +9,13 @@ RUN apt-get update && \
 	fbi && \
 	apt-get clean
 
-WORKDIR /app
-COPY /app .
+COPY /app /usr/bin
 
 RUN ln -s /opt/vc/bin/vcgencmd /usr/bin/vcgencmd && \
-	chmod +x scheduler.sh install.sh && \
-	./install.sh
+	chmod +x \
+	/usr/bin/displaycameras \
+	/usr/bin/omxplayer_dbuscontrol \
+	/usr/bin/rotatedisplays \
+	/usr/bin/scheduler
 
-#CMD ./scheduler.sh
+#CMD /usr/bin/scheduler

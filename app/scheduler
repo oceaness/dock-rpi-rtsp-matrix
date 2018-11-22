@@ -1,5 +1,4 @@
 #!/bin/sh
-
 while :
 do
 	dow=$(date +%w)
