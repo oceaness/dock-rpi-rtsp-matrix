@@ -18,20 +18,45 @@ do
 	if [ "$dow" -eq 0 ]
 	then
 		# Sunday
-		if [ "$sun_on" ="" ] || [ "$sun_off" == "" ]
+		if [ "$sun_on" = "" ] || [ "$sun_off" = "" ]
 		then
 			# Off
 			sleep 3600
+		elif [ "$(date +%H%M)" -ge "$sun_on" ] && [ "$(date +%H%M)" -le "$sun_off" ]
+		# On
+		then
+			vcgencmd display_power 1
+			if [ ! -f "/var/run/displaycameras.pid" ]
+			then
+				displaycameras start
+			fi
+			while [ "$(date +%H%M)" -ge "$sun_on" ] && [ "$(date +%H%M)" -le "$sun_off" ]
+			do
+				displaycameras repair
+				sleep 60
+			done
+		elif [ "$(date +%H%M)" -le "$sun_on" ] || [ "$(date +%H%M)" -ge "$sun_off" ]
+		# Closed
+		then
+			if [ -f "/var/run/displaycameras.pid" ]
+			then
+				displaycameras stop
+			fi
+			vcgencmd display_power 0
+			while [ "$(date +%H%M)" -le "$sun_on" ] || [ "$(date +%H%M)" -ge "$sun_off" ]
+			do
+				sleep 60
+			done
 		fi
 	elif [ "$dow" -eq 6 ]
 	then
 		# Saturday
-		if [ "$sat_on" ="" ] || [ "$sat_off" == "" ]
+		if [ "$sat_on" = "" ] || [ "$sat_off" = "" ]
 		then
 			# Off
 			sleep 3600
 		elif [ "$(date +%H%M)" -ge "$sat_on" ] && [ "$(date +%H%M)" -le "$sat_off" ]
-		# Open
+		# On
 		then
 			vcgencmd display_power 1
 			if [ ! -f "/var/run/displaycameras.pid" ]
@@ -58,12 +83,12 @@ do
 		fi
 	else
 		# Weekday
-		if [ "$weekday_on" ="" ] || [ "$weekday_off" == "" ]
+		if [ "$weekday_on" = "" ] || [ "$weekday_off" = "" ]
 		then
 			# Off
 			sleep 3600
 		elif [ "$(date +%H%M)" -ge "$weekday_on" ] && [ "$(date +%H%M)" -le "$weekday_off" ]
-		# Open
+		# On
 		then
 			vcgencmd display_power 1
 			if [ ! -f "/var/run/displaycameras.pid" ]
