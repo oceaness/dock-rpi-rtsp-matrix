@@ -13,7 +13,7 @@ COPY /app /usr/bin
 
 RUN ln -s /opt/vc/bin/vcgencmd /usr/bin/vcgencmd && \
 	chmod +x \
-	/usr/bin/displaycameras \
+	/usr/bin/pi_video_matrix \
 	/usr/bin/omxplayer_dbuscontrol \
 	/usr/bin/rotatedisplays \
 	/usr/bin/gen_matrix \

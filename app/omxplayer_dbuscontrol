@@ -4,8 +4,8 @@
 #set -x
 
 # This script is specifically modified to support multiple omxplayer instances
-# registered at custom dbus addresses (for use with RPis and Ubiquity camera
-# systems. Since these instances run as background processes as root and the
+# registered at custom dbus addresses.
+# Since these instances run as background processes as root and the
 # RPi is presumed to be single use (with no other omxplayer instances running,
 # it is protected from being run by regular user.
 # If non-root operation is desired, comment out the next four lines.

@@ -1,10 +1,10 @@
 #!/bin/sh
 
-# See /etc/displaycameras/schedule.conf for configuration options
+# See /etc/pi_video_matrix/schedule.conf for configuration options
 
-conf=/etc/displaycameras
+conf=/etc/pi_video_matrix
 
-if [ -r /etc/displaycameras/schedule.conf ]
+if [ -r /etc/pi_video_matrix/schedule.conf ]
 then
 	. $conf/schedule.conf;
 else
@@ -26,21 +26,21 @@ do
 		# On
 		then
 			vcgencmd display_power 1
-			if [ ! -f "/var/run/displaycameras.pid" ]
+			if [ ! -f "/var/run/pi_video_matrix.pid" ]
 			then
-				displaycameras start
+				pi_video_matrix start
 			fi
 			while [ "$(date +%H%M)" -ge "$sun_on" ] && [ "$(date +%H%M)" -le "$sun_off" ]
 			do
-				displaycameras repair
+				pi_video_matrix repair
 				sleep 60
 			done
 		elif [ "$(date +%H%M)" -le "$sun_on" ] || [ "$(date +%H%M)" -ge "$sun_off" ]
 		# Closed
 		then
-			if [ -f "/var/run/displaycameras.pid" ]
+			if [ -f "/var/run/pi_video_matrix.pid" ]
 			then
-				displaycameras stop
+				pi_video_matrix stop
 			fi
 			vcgencmd display_power 0
 			while [ "$(date +%H%M)" -le "$sun_on" ] || [ "$(date +%H%M)" -ge "$sun_off" ]
@@ -59,21 +59,21 @@ do
 		# On
 		then
 			vcgencmd display_power 1
-			if [ ! -f "/var/run/displaycameras.pid" ]
+			if [ ! -f "/var/run/pi_video_matrix.pid" ]
 			then
-				displaycameras start
+				pi_video_matrix start
 			fi
 			while [ "$(date +%H%M)" -ge "$sat_on" ] && [ "$(date +%H%M)" -le "$sat_off" ]
 			do
-				displaycameras repair
+				pi_video_matrix repair
 				sleep 60
 			done
 		elif [ "$(date +%H%M)" -le "$sat_on" ] || [ "$(date +%H%M)" -ge "$sat_off" ]
 		# Closed
 		then
-			if [ -f "/var/run/displaycameras.pid" ]
+			if [ -f "/var/run/pi_video_matrix.pid" ]
 			then
-				displaycameras stop
+				pi_video_matrix stop
 			fi
 			vcgencmd display_power 0
 			while [ "$(date +%H%M)" -le "$sat_on" ] || [ "$(date +%H%M)" -ge "$sat_off" ]
@@ -91,21 +91,21 @@ do
 		# On
 		then
 			vcgencmd display_power 1
-			if [ ! -f "/var/run/displaycameras.pid" ]
+			if [ ! -f "/var/run/pi_video_matrix.pid" ]
 			then
-				displaycameras start
+				pi_video_matrix start
 			fi
 			while [ "$(date +%H%M)" -ge "$weekday_on" ] && [ "$(date +%H%M)" -le "$weekday_off" ]
 			do
-				displaycameras repair
+				pi_video_matrix repair
 				sleep 60
 			done
 		elif [ "$(date +%H%M)" -le "$weekday_on" ] || [ "$(date +%H%M)" -ge "$weekday_off" ]
 		# Closed
 		then
-			if [ -f "/var/run/displaycameras.pid" ]
+			if [ -f "/var/run/pi_video_matrix.pid" ]
 			then
-				displaycameras stop
+				pi_video_matrix stop
 			fi
 			vcgencmd display_power 0
 			while [ "$(date +%H%M)" -le "$weekday_on" ] || [ "$(date +%H%M)" -ge "$weekday_off" ]
