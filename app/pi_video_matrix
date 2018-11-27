@@ -121,7 +121,7 @@ if [ "$rotate" = "true" ]; then
 fi
 ;;
 
-# Stop displaying camera feeds
+# Stop displaying camera feeds, rotation and blanking
 stop)
 rm -f $PIDFILE
 rm -f $DISPLAY_SEQUENCE_FILE

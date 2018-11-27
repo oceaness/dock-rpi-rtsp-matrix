@@ -1,6 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
-# See /etc/pi_video_matrix/schedule.conf for configuration options
+trap cleanup EXIT
+
+cleanup () {
+	pi_video_matrix stop
+}
 
 conf=/etc/pi_video_matrix
 

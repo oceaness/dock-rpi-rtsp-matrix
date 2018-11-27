@@ -2,6 +2,6 @@
 
 while :
 do
-	sleep $1
+	sleep "$1"
 	pi_video_matrix rotate >/dev/null 2>&1
 done
