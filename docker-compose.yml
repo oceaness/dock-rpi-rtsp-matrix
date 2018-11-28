@@ -14,7 +14,7 @@ services:
         cap_add:
             - SYS_TTY_CONFIG
 
-# docker-compose run --rm pi_video_matrix
+# docker-compose up -d
 
 # /dev/vchiq /opt/vc required for omxplayer
 # /dev/fb0 /dev/tty2 SYS_TTY_CONFIG required for fbi blanking
