@@ -27,7 +27,7 @@ fi
 if grep -Fq disable_overscan /boot/config.txt
 then
 	# Replace it with new value
-	sed -i '/disable_overscan/c\disable_overscan=1' /boot/config.txt
+	sudo sed -i '/disable_overscan/c\disable_overscan=1' /boot/config.txt
 else
 	# Append it
 	sudo sh -c "echo '\ndisable_overscan=1' >> /boot/config.txt"
