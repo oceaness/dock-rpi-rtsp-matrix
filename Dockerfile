@@ -19,4 +19,4 @@ RUN ln -s /opt/vc/bin/vcgencmd /usr/bin/vcgencmd && \
 	/usr/bin/gen_matrix \
 	/usr/bin/scheduler
 
-#CMD /usr/bin/scheduler
+CMD scheduler

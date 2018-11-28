@@ -2,7 +2,8 @@ version: "3.7"
 
 services:
     pi_video_matrix:
-        image: pi_video_matrix
+        image: jacktester/pi_video_matrix
+        container_name: pi_video_matrix
         devices:
             - /dev/vchiq:/dev/vchiq
             - /dev/fb0:/dev/fb0
