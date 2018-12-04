@@ -34,15 +34,20 @@ else
 fi
 
 # If docker is not installed
-if ! docker -v; then
+if ! docker -v &> /dev/null; then
 	# Install docker
 	curl -sSL https://get.docker.com | sh
 fi
 
-# If user pi is not in docker group
+# If  pi user is not in docker group
 if ! groups pi | grep -q 'docker'; then
 	# Add default pi user to docker group
 	sudo usermod -aG docker pi
+fi
+
+# Check if pi user password has been changed
+if [ -e /run/sshwarn ] ; then
+	echo "The password for the user 'pi' is still the default value, please change this by running passwd"
 fi
 
 echo "Please reboot your pi for the settings to take effect"

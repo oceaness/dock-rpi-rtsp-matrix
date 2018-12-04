@@ -16,7 +16,7 @@ if [ -r $conf_dir/layout.conf ]; then
 	. $conf_dir/layout.conf
 else
 	# Generate default layout conf file
-	gen_matrix "$on_screen"
+	gen_matrix "$on_screen" "$stretch"
 	. $conf_dir/default.layout.conf
 fi
 
@@ -114,7 +114,11 @@ if [ "$rotate" = "true" ]; then
 		rotatedelay=5
 	fi
 	echo "Starting camera rotation"
-	rotatedisplays $rotatedelay &
+	if [ "$rotaterev" = "true" ]; then
+		rotatedisplays rotaterev $rotatedelay &
+	else
+		rotatedisplays rotate $rotatedelay &
+	fi
 fi
 ;;
 

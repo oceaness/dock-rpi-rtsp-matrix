@@ -19,4 +19,6 @@ RUN ln -s /opt/vc/bin/vcgencmd /usr/bin/vcgencmd && \
 	/usr/bin/gen_matrix \
 	/usr/bin/scheduler
 
-CMD scheduler
+STOPSIGNAL SIGTERM
+ENTRYPOINT [ "tini", "--" ]
+CMD [ "scheduler" ]
