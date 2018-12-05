@@ -34,7 +34,7 @@ fi
 # If docker is not installed
 if ! docker -v > /dev/null 2>&1; then
 	# Install docker
-	curl -sSL https://get.docker.com | sh
+	curl -sSL https://get.docker.com | sh  > /dev/null 2>&1
 fi
 
 # If  pi user is not in docker group
@@ -51,6 +51,8 @@ if ! docker-compose -v > /dev/null 2>&1; then
 	fi
 	sudo pip install docker-compose
 fi
+
+sudo rpi-update > /dev/null 2>&1
 
 # Check if pi user password has been changed
 if [ -e /run/sshwarn ] ; then
