@@ -45,16 +45,16 @@ fi
 
 # If docker-compose not install
 if ! docker-compose -v > /dev/null 2>&1; then
-	apt update
+	sudo apt update
 	if ! pip -V > /dev/null 2>&1; then
-		apt install -y python python-pip
+		sudo apt install -y python python-pip
 	fi
 	pip install docker-compose
 fi
 
 # Check if pi user password has been changed
 if [ -e /run/sshwarn ] ; then
-	printf "/nThe password for the user 'pi' is still the default value, please change this by running passwd\n\n"
+	printf "\nThe password for the user 'pi' is still the default value, please change this by running passwd\n\n"
 fi
 
 echo "Please reboot your pi for the settings to take effect"
