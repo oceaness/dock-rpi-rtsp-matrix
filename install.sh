@@ -49,7 +49,7 @@ if ! docker-compose -v > /dev/null 2>&1; then
 		sudo apt update
 		sudo apt install -y python python-pip
 	fi
-	pip install docker-compose
+	sudo pip install docker-compose
 fi
 
 # Check if pi user password has been changed
