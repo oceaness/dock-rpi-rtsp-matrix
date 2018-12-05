@@ -18,113 +18,90 @@ sleep_func () {
 
 conf=/etc/pi_video_matrix
 
-if [ -r /etc/pi_video_matrix/schedule.conf ]
-then
+if [ -r /etc/pi_video_matrix/schedule.conf ]; then
 	. $conf/schedule.conf;
 else
 	echo "$conf/schedule.conf does not exist or is not readable."
 exit 1
 fi
 
-while :
-do
+while true; do
 	dow=$(date +%w)
-	if [ "$dow" -eq 0 ]
-	then
+	if [ "$dow" -eq 0 ]; then
 		# Sunday
-		if [ "$sun_on" = "" ] || [ "$sun_off" = "" ]
-		then
+		if [ "$sun_on" = "" ] || [ "$sun_off" = "" ]; then
 			# Off
 			sleep_func 3600
-		elif [ "$(date +%H%M)" -ge "$sun_on" ] && [ "$(date +%H%M)" -le "$sun_off" ]
+		elif [ "$(date +%H%M)" -ge "$sun_on" ] && [ "$(date +%H%M)" -le "$sun_off" ]; then
 		# On
-		then
 			vcgencmd display_power 1
-			if [ ! -f "/var/run/pi_video_matrix.pid" ]
-			then
-				pi_video_matrix start
+			if [ ! -f "/var/run/pi_video_matrix.pid" ]; then
+				pi_video_matrix start &
+				wait
 			fi
-			while [ "$(date +%H%M)" -ge "$sun_on" ] && [ "$(date +%H%M)" -le "$sun_off" ]
-			do
+			while [ "$(date +%H%M)" -ge "$sun_on" ] && [ "$(date +%H%M)" -le "$sun_off" ]; do
 				pi_video_matrix repair
 				sleep_func 60
 			done
-		elif [ "$(date +%H%M)" -le "$sun_on" ] || [ "$(date +%H%M)" -ge "$sun_off" ]
+		elif [ "$(date +%H%M)" -le "$sun_on" ] || [ "$(date +%H%M)" -ge "$sun_off" ]; then
 		# Closed
-		then
-			if [ -f "/var/run/pi_video_matrix.pid" ]
-			then
+			if [ -f "/var/run/pi_video_matrix.pid" ]; then
 				pi_video_matrix stop
 			fi
 			vcgencmd display_power 0
-			while [ "$(date +%H%M)" -le "$sun_on" ] || [ "$(date +%H%M)" -ge "$sun_off" ]
-			do
+			while [ "$(date +%H%M)" -le "$sun_on" ] || [ "$(date +%H%M)" -ge "$sun_off" ]; do
 				sleep_func 60
 			done
 		fi
-	elif [ "$dow" -eq 6 ]
-	then
+	elif [ "$dow" -eq 6 ]; then
 		# Saturday
-		if [ "$sat_on" = "" ] || [ "$sat_off" = "" ]
-		then
+		if [ "$sat_on" = "" ] || [ "$sat_off" = "" ]; then
 			# Off
 			sleep_func 3600
-		elif [ "$(date +%H%M)" -ge "$sat_on" ] && [ "$(date +%H%M)" -le "$sat_off" ]
+		elif [ "$(date +%H%M)" -ge "$sat_on" ] && [ "$(date +%H%M)" -le "$sat_off" ]; then
 		# On
-		then
 			vcgencmd display_power 1
-			if [ ! -f "/var/run/pi_video_matrix.pid" ]
-			then
-				pi_video_matrix start
+			if [ ! -f "/var/run/pi_video_matrix.pid" ]; then
+				pi_video_matrix start &
+				wait
 			fi
-			while [ "$(date +%H%M)" -ge "$sat_on" ] && [ "$(date +%H%M)" -le "$sat_off" ]
-			do
+			while [ "$(date +%H%M)" -ge "$sat_on" ] && [ "$(date +%H%M)" -le "$sat_off" ]; do
 				pi_video_matrix repair
 				sleep_func 60
 			done
-		elif [ "$(date +%H%M)" -le "$sat_on" ] || [ "$(date +%H%M)" -ge "$sat_off" ]
+		elif [ "$(date +%H%M)" -le "$sat_on" ] || [ "$(date +%H%M)" -ge "$sat_off" ]; then
 		# Closed
-		then
-			if [ -f "/var/run/pi_video_matrix.pid" ]
-			then
+			if [ -f "/var/run/pi_video_matrix.pid" ]; then
 				pi_video_matrix stop
 			fi
 			vcgencmd display_power 0
-			while [ "$(date +%H%M)" -le "$sat_on" ] || [ "$(date +%H%M)" -ge "$sat_off" ]
-			do
+			while [ "$(date +%H%M)" -le "$sat_on" ] || [ "$(date +%H%M)" -ge "$sat_off" ]; do
 				sleep_func 60
 			done
 		fi
 	else
 		# Weekday
-		if [ "$weekday_on" = "" ] || [ "$weekday_off" = "" ]
-		then
-			# Off
+		if [ "$weekday_on" = "" ] || [ "$weekday_off" = "" ]; then
+		# Off
 			sleep_func 3600
-		elif [ "$(date +%H%M)" -ge "$weekday_on" ] && [ "$(date +%H%M)" -le "$weekday_off" ]
+		elif [ "$(date +%H%M)" -ge "$weekday_on" ] && [ "$(date +%H%M)" -le "$weekday_off" ]; then
 		# On
-		then
 			vcgencmd display_power 1
-			if [ ! -f "/var/run/pi_video_matrix.pid" ]
-			then
+			if [ ! -f "/var/run/pi_video_matrix.pid" ]; then
 				pi_video_matrix start &
 				wait
 			fi
-			while [ "$(date +%H%M)" -ge "$weekday_on" ] && [ "$(date +%H%M)" -le "$weekday_off" ]
-			do
+			while [ "$(date +%H%M)" -ge "$weekday_on" ] && [ "$(date +%H%M)" -le "$weekday_off" ]; do
 				pi_video_matrix repair
 				sleep_func 60
 			done
-		elif [ "$(date +%H%M)" -le "$weekday_on" ] || [ "$(date +%H%M)" -ge "$weekday_off" ]
+		elif [ "$(date +%H%M)" -le "$weekday_on" ] || [ "$(date +%H%M)" -ge "$weekday_off" ]; then
 		# Closed
-		then
-			if [ -f "/var/run/pi_video_matrix.pid" ]
-			then
+			if [ -f "/var/run/pi_video_matrix.pid" ]; then
 				pi_video_matrix stop
 			fi
 			vcgencmd display_power 0
-			while [ "$(date +%H%M)" -le "$weekday_on" ] || [ "$(date +%H%M)" -ge "$weekday_off" ]
-			do
+			while [ "$(date +%H%M)" -le "$weekday_on" ] || [ "$(date +%H%M)" -ge "$weekday_off" ]; do
 				sleep_func 60
 			done
 		fi

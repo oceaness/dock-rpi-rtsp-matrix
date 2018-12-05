@@ -4,6 +4,10 @@ services:
     pi_video_matrix:
         image: jacktester/pi_video_matrix
         container_name: pi_video_matrix
+        ulimits:
+            nofile:
+                soft: 1024
+                hard: 1024
         devices:
             - /dev/vchiq:/dev/vchiq
             - /dev/fb0:/dev/fb0

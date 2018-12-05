@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# version:0.1
+# version:0.2
 
 conf_dir=/etc/pi_video_matrix
 
@@ -57,8 +57,7 @@ if [ "$blank" = "true" ]; then
 fi
 startupfailure=false
 feedfailure=false
-for i in ${!camera_names[*]}
-do
+for i in ${!camera_names[*]}; do
 	startupretry=0
 	feedretry=0
 	x=$((i+DISPLAY_SEQUENCE))
@@ -69,8 +68,7 @@ do
 	echo "Starting omxplayer for ${camera_names[$i]}"
 	eval "$player"
 	sleep "$startsleep"
-	while [ "$(omxplayer_dbuscontrol "${camera_names[$i]}" getplaystatus)" != "Playing" ]
-	do
+	while [ "$(omxplayer_dbuscontrol "${camera_names[$i]}" getplaystatus)" != "Playing" ]; do
 		sleep 1
 		echo "Waiting for ${camera_names[$i]} omxplayer startup $startupretry"
 		if [ "$startupretry" -eq "$retry" ]; then
@@ -80,8 +78,7 @@ do
 	done
 	if [ "$(omxplayer_dbuscontrol "${camera_names[$i]}" getplaystatus)" = "Playing" ]; then
 		sleep "$feedsleep"
-		while [ "$(omxplayer_dbuscontrol "${camera_names[$i]}" getposition)" = "0s" ]
-		do
+		while [ "$(omxplayer_dbuscontrol "${camera_names[$i]}" getposition)" = "0s" ]; do
 			sleep 1
 			echo "Waiting for ${camera_names[$i]} playback $feedretry"
 			if [ "$feedretry" -eq "$retry" ]; then
@@ -126,20 +123,23 @@ fi
 stop)
 rm -f $PIDFILE
 rm -f $DISPLAY_SEQUENCE_FILE
-if [ "$rotate" = "true" ]; then
-	pkill rotatedisplays
-fi
-for i in "{camera_names[@]}"
-do
-	omxplayer_dbuscontrol "$i" quit
-done
-sleep 2
 if [ "$blank" = "true" ]; then
+	echo "Stopping fbi"
 	pkill fbi
 fi
-killall omxplayer.bin > /dev/null 2>&1
+if [ "$rotate" = "true" ]; then
+	echo " Stopping rotation"
+	pkill rotatedisplays
+fi
+for i in "${camera_names[@]}"; do
+	echo "Stopping camera $i"
+	omxplayer_dbuscontrol "$i" quit
+done
+#sleep 2
+#killall omxplayer.bin > /dev/null 2>&1
+echo "Stopping dbus-daemon"
 pkill dbus-daemon
-echo "Camera Display Stopped"
+echo "Camera Display Stopped, exiting"
 exit 0
 ;;
 
@@ -156,13 +156,11 @@ repair)
 # Do nothing unless the service PID file exists
 if [ ! -f $PIDFILE ]; then exit 0; fi
 # Stop and start the service if we have too many omxplayers
-if [ "$(pgrep -c omxplayer.bin)" -gt "$cameras" ]
-then
+if [ "$(pgrep -c omxplayer.bin)" -gt "$cameras" ]; then
 	$0 restart
 fi
 # The actual repair part
-for i in ${!camera_names[*]}
-do
+for i in ${!camera_names[*]}; do
 	if [ "$(omxplayer_dbuscontrol "${camera_names[$i]}" getplaystatus)" != "Playing" ] || [ "$(omxplayer_dbuscontrol "${camera_names[$i]}" getposition)" = "0s" ]; then
 		rm -f $PIDFILE
 		pkill rotatedisplays
@@ -177,8 +175,7 @@ do
 		sleep "$startsleep"
 		startupretry=0
 		feedretry=0
-		while [ "$(omxplayer_dbuscontrol "${camera_names[$i]}" getplaystatus)" != "Playing" ]
-		do
+		while [ "$(omxplayer_dbuscontrol "${camera_names[$i]}" getplaystatus)" != "Playing" ]; do
 			sleep 1
 			echo "Waiting for ${camera_names[$i]} omxplayer startup $startupretry"
 			if [ "$startupretry" -eq "$retry" ]; then
@@ -188,8 +185,7 @@ do
 		done
 		if [ "$(omxplayer_dbuscontrol "${camera_names[$i]}" getplaystatus)" = "Playing" ]; then
 			sleep "$feedsleep"
-			while [ "$(omxplayer_dbuscontrol "${camera_names[$i]}" getposition)" = "0s" ]
-			do
+			while [ "$(omxplayer_dbuscontrol "${camera_names[$i]}" getposition)" = "0s" ]; do
 				sleep 1
 				echo "Waiting for ${camera_names[$i]} playback $feedretry"
 				if [ "$feedretry" -eq "$retry" ]; then
@@ -228,8 +224,7 @@ DISPLAY_SEQUENCE=$((DISPLAY_SEQUENCE-1))
 if [ "$DISPLAY_SEQUENCE" -lt "0" ]; then
         DISPLAY_SEQUENCE="$max_seq"
 fi
-for i in ${!camera_names[*]}
-do
+for i in ${!camera_names[*]}; do
         y=$((i-DISPLAY_SEQUENCE-1))
         if [ "$y" -lt "0" ]; then
 			y=$((y+cameras))
@@ -247,13 +242,13 @@ echo $DISPLAY_SEQUENCE > $DISPLAY_SEQUENCE_FILE
 ;;
 
 rotaterev)
+# Do nothing unless the service PID file exists
 if [ ! -f $PIDFILE ]; then exit 0; fi
 DISPLAY_SEQUENCE=$((DISPLAY_SEQUENCE+1))
 if [ "$DISPLAY_SEQUENCE" -ge "${#camera_names[@]}" ]; then
         DISPLAY_SEQUENCE=0
 fi
-for i in ${!camera_names[*]}
-do
+for i in ${!camera_names[*]}; do
         y=$((i-DISPLAY_SEQUENCE+1))
         if [ "$y" -lt "0" ]; then
 			y=$((y+cameras))
@@ -271,8 +266,7 @@ echo $DISPLAY_SEQUENCE > $DISPLAY_SEQUENCE_FILE
 ;;
 
 status)
-for i in "${camera_names[@]}"
-do
+for i in "${camera_names[@]}"; do
 	status="$(omxplayer_dbuscontrol "$i" status 2>/dev/null)"
 	if [[ "$status" != "Playing"* ]]; then
 		echo "$i is NOT playing"
@@ -283,8 +277,7 @@ done
 ;;
 
 positions)
-for i in "${camera_names[@]}"
-do
+for i in "${camera_names[@]}"; do
 	position="$(omxplayer_dbuscontrol "$i" getposition)"
 	echo "$position $i"
 done

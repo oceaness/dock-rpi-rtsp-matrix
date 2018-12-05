@@ -1,7 +1,6 @@
 #!/bin/bash
 
-while :
-do
+while true; do
 	sleep "$2"
 	pi_video_matrix "$1" >/dev/null 2>&1
 done

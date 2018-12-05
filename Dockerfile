@@ -3,7 +3,8 @@ FROM resin/rpi-raspbian
 # Required for omxplayer
 ENV LD_LIBRARY_PATH=/opt/vc/lib
 
-RUN apt-get update && \
+RUN ulimit -n 1024 && \
+	apt-get update && \
 	apt-get install \
 	omxplayer \
 	fbi && \
