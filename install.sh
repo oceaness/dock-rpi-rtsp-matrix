@@ -45,8 +45,8 @@ fi
 
 # If docker-compose not install
 if ! docker-compose -v > /dev/null 2>&1; then
-	sudo apt update
 	if ! pip -V > /dev/null 2>&1; then
+		sudo apt update
 		sudo apt install -y python python-pip
 	fi
 	pip install docker-compose
