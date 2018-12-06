@@ -6,8 +6,8 @@ pi_video_matrix is a docker container run on Raspberry Pi hardware to locally di
 * Raspbian OS (other OS's may work but are not supported)
 
 # Download/Installation
-The easiest way to download and install the necessary files is to run
-`bash <(wget -qO- https://github.com/oceaness/pi_video_matrix/raw/master/install.sh)`
+The easiest way to download and install the necessary files is to run  
+`bash <(wget -qO- https://github.com/oceaness/pi_video_matrix/raw/master/install.sh)`  
 this will perform the following actions.
 
 1. Set your Raspberry Pi's GPU memory split to 256mb
