@@ -23,5 +23,4 @@ After these actions are complete you will need to reboot your Pi for the config 
 # Configuration
 Before you can run the container you will need to make some minimal changes to at least the pi_video_matrix.conf file, and provide some video feed URLs in the feeds.conf file.
 
-Instructions for how to do this are contained within those files and in the README.md within the conf directory.
-[a relative link](conf)
+Instructions for how to do this are contained within those files and in the README.md within the [conf directory](conf).
