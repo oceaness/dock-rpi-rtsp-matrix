@@ -1,16 +1,23 @@
 #!/bin/sh
 
-# This script will automatically set your raspberry Pi's GPU memory
-# split to 256mb, this should be sufficient for most feed layouts.
+# This script will perform the below actions
+
+# Set your raspberry Pi's GPU memory split to 256mb, this
+# should be sufficient for most feed layouts.
 # You may decrease this if you have lower feed numbers.
 
-gpu_mem="256"
+gpu_mem=256
 
-# We will also be disabling overscan which will remove black
+# Disable overscan which will remove black
 # borders from most modern screens.
 
-# Finally we will install docker, if it is not already installed and
+# Install docker if it is not already installed and
 # add the pi user to the docker user group.
+
+# Install docker-compose if it's not already installed.
+
+# Create the pi_video_matrix folder and get the conf files
+# from github.
 
 
 # If /boot/config.txt contains "gpu_mem"
@@ -52,7 +59,21 @@ if ! docker-compose -v > /dev/null 2>&1; then
 	sudo pip install docker-compose
 fi
 
-sudo rpi-update > /dev/null 2>&1
+# If pi_video_matrix directory doesn't exist create it
+if [ ! -d ~/pi_video_matrix/conf ];then
+	mkdir -p ~/pi_video_matrix/conf
+fi
+
+# Get docker-compose.yml
+wget -qO ~/pi_video_matrix/docker-compose.yml https://github.com/oceaness/pi_video_matrix/raw/master/docker-compose.yml
+
+# Get conf files
+conf_files=(example.layout.conf feeds.conf pi_video_matrix.conf scheduler.conf)
+for file in $conf_files; do
+	wget -qO ~/pi_video_matrix/conf/$file https://github.com/oceaness/pi_video_matrix/raw/master/conf/$file
+done
+
+#sudo rpi-update > /dev/null 2>&1
 
 # Check if pi user password has been changed
 if [ -e /run/sshwarn ] ; then
