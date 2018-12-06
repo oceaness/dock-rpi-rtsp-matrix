@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# version:0.2
+# version:0.3
 
 conf_dir=/etc/pi_video_matrix
 
@@ -12,19 +12,37 @@ else
 	exit 1
 fi
 
+# sed command removes Windows carriage returns, # comments, and then deletes empty lines
+# Exit if feeds file not present and readable
+if [ -r $conf_dir/feeds.conf ]; then
+	# Exit if feeds files still contains placeholder text
+	if sed -e 's/\r//' -e 's/#.*//' -e '/^$/d' $conf_dir/feeds.conf | grep -Fq "<Camera_stream_URL>"; then
+		echo "$conf_dir/feeds.conf has either not been edited or still contains placeholder text."
+		echo "Finish adding your feed URLs and remove or comment out any remaining placeholder text."
+		exit 1
+	else
+		# Create an array of feeds from feeds.conf
+		while read -r line; do
+			camera_feeds[${#camera_feeds[@]}]="$line"
+		done <<< "$(sed -e 's/\r//' -e 's/#.*//' -e '/^$/d' $conf_dir/feeds.conf)"
+	fi
+else
+	echo "$conf_dir/feeds.conf does not exist or is not readable."
+	exit 1
+fi
+
+# Load manual override conf or generate conf
 if [ -r $conf_dir/layout.conf ]; then
 	. $conf_dir/layout.conf
 else
+	feeds=${#camera_feeds[@]}
+	if [ -z "$on_screen" ]; then
+		on_screen=$feeds
+	fi
 	# Generate default layout conf file
-	gen_matrix "$on_screen" "$stretch"
+	gen_matrix "$on_screen" "$stretch" "$feeds"
 	. $conf_dir/default.layout.conf
 fi
-
-# Create an array of feeds from feeds.conf
-# sed command removes Windows carriage returns, # comments, and then deletes empty lines
-while read -r line; do
-	camera_feeds[${#camera_feeds[@]}]="$line"
-done <<< "$(sed -e 's/\r//' -e 's/#.*//' -e '/^$/d' $conf_dir/feeds.conf)"
 
 # Ensure there is an omxplayer timeout value
 if [ "$omx_timeout" = "" ]; then
@@ -141,8 +159,6 @@ for i in "${camera_names[@]}"; do
 	echo "Stopping camera $i"
 	omxplayer_dbuscontrol "$i" quit
 done
-#sleep 2
-#killall omxplayer.bin > /dev/null 2>&1
 echo "Stopping dbus-daemon"
 pkill dbus-daemon
 echo "Camera Display Stopped, exiting"

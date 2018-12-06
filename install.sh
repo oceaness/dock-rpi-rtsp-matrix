@@ -43,7 +43,7 @@ if ! groups pi | grep -q 'docker'; then
 	sudo usermod -aG docker pi
 fi
 
-# If docker-compose not install
+# If docker-compose not installed
 if ! docker-compose -v > /dev/null 2>&1; then
 	if ! pip -V > /dev/null 2>&1; then
 		sudo apt update

@@ -4,7 +4,7 @@ trap cleanup TERM
 cleanup () {
 	echo "Stopping pi_video_matrix"
 	pi_video_matrix stop
-	if [ ! -z "$pid" ]; then
+	if [ -n "$pid" ]; then
 		kill "$pid"
 	fi
 	exit 0

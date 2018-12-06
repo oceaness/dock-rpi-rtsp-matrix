@@ -14,11 +14,10 @@ services:
             - /dev/tty2:/dev/tty2
         volumes:
             - ./conf:/etc/pi_video_matrix/
-            - /opt/vc:/opt/vc
         cap_add:
             - SYS_TTY_CONFIG
 
 # docker-compose up -d
 
-# /dev/vchiq /opt/vc required for omxplayer
+# /dev/vchiq required for omxplayer
 # /dev/fb0 /dev/tty2 SYS_TTY_CONFIG required for fbi blanking
