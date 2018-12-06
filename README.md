@@ -8,7 +8,7 @@ pi_video_matrix is a docker container run on Raspberry Pi hardware to locally di
 # Download/Installation
 The easiest way to download and install the necessary files is to run  
 `bash <(wget -qO- https://github.com/oceaness/pi_video_matrix/raw/master/install.sh)`  
-this will perform the following actions.
+this will perform the following actions:
 
 1. Set your Raspberry Pi's GPU memory split to 256mb
 2. Disable display overscan as it is not required on most modern monitors
@@ -23,4 +23,5 @@ After these actions are complete you will need to reboot your Pi for the config 
 # Configuration
 Before you can run the container you will need to make some minimal changes to at least the pi_video_matrix.conf file, and provide some video feed URLs in the feeds.conf file.
 
-Instructions for how to do this are contained within those file and in the README.md within the conf directory.
+Instructions for how to do this are contained within those files and in the README.md within the conf directory.
+[a relative link](conf)
