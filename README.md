@@ -14,7 +14,7 @@ this will perform the following actions:
 2. Disable display overscan as it is not required on most modern monitors
 3. Install docker if it is not already installed
 4. Add Raspbians default pi user to the docker user group
-5. Install docker-compose if it is not already installed
+5. Install python, pip and docker-compose if they are not already installed
 6. Create pi_video_matrix and conf directory in home
 7. Download docker-compose.yml and conf files
 
