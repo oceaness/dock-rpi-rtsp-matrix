@@ -63,7 +63,7 @@ The default value for `feedlseep` is 1.
 This configuration file is the only one you must make some amendments to if you want the container to do anything, where you need to list your video feeds, one per line. You can add text comments or comment out lines using # character.
 
 ## schedule.conf
-Most monitors are not designed to be run 24x7, doing so will drastically shorten it's lifespan. If you monitor supports sleeping when there's no video input, you can configure times for the system to automatically switch on and off. If either field in each on/off pair is left blank, the system will remain off.
+Most monitors are not designed to be run 24x7, doing so will drastically shorten it's lifespan. If you monitor supports sleeping when there's no video input, you can configure times for the system to automatically switch on and off. If either field in each on/off pair is left blank, the system will remain off. Computer monitors will almost certainly support this, TV's however are only just catching up, some will now switch into standby mode when there is no video signal and switch back on when the video signal resumes.
 
 Please enter times in 24 hour notation with no additional characters  
 Example: `weekday_on=0600`
