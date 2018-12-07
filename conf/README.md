@@ -11,7 +11,7 @@ If any variables are left blank defaults will be used.
 
 In it you can configure the following options:
 
-### Display blanking - 'blank'
+### Display blanking - `blank`
 The `blank` option will black out the Raspberry Pi's display to hide the command line boot text whilst the cameras are loading. It is recommended that you enable this setting by setting it to blank=true.
 
 It is disabled by default.
@@ -38,7 +38,7 @@ The default value is 1, which equates to 1 full-screen feed and no matrix.
 ### Aspect ratio - `stretch`
 The `stretch` option allows you to stretch your matrix and therefore your video feeds to fill a monitors available resolution. By default an aspect ratio of 16:9 is maintained, as this is the standard ratio used by most monitors and video feeds. This setting will have no effect if your monitor is 16:9 and can be ignored.
 
-This is disabled by default.
+It is disabled by default.
 
 ### Rotation - `rotatedelay`, `rotaterev`
 The `rotatedelay` option determines how often video feeds are rotated, in seconds, when you have more feeds than visible windows in your matrix.
