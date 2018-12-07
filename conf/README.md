@@ -2,7 +2,7 @@
 
 There are a few config files in this directory, please see below for information about each one.
 
-For a minimal configuration there are only two conf files you must edit. The first is to enter your list of feed URLs in feeds.conf, and second, if you want more than 1 feed on the screen at a time, edit the `on_screen` option in pi_video_matrix.conf.
+For a minimal configuration there are two conf files you must edit. The first is to enter your list of feed URLs in feeds.conf, and second, if you want more than 1 feed on the screen at a time, edit the `on_screen` option in pi_video_matrix.conf.
 
 ## pi_video_matrix.conf
 This is the configuration file for the pi_video_matrix program intended to display a matrix of video feeds such as those from a CCTV camera system (there is a known compatibility issue with Hikvision cameras).
