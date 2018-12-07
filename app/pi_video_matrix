@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# version:0.3
+# version:0.4
 
 conf_dir=/etc/pi_video_matrix
 
@@ -45,8 +45,23 @@ else
 fi
 
 # Ensure there is an omxplayer timeout value
-if [ "$omx_timeout" = "" ]; then
+if [ -z "$omx_timeout" ]; then
 	omx_timeout=30
+fi
+
+# Ensure there is a startsleep value
+if [ -z "$startsleep" ]; then
+	startsleep=3
+fi
+
+# Ensure there is a feedsleep value
+if [ -z "$feedsleep" ]; then
+	feedsleep=1
+fi
+
+# Ensure there is a retry value
+if [ -z "$retry" ]; then
+	retry=5
 fi
 
 # Set a variables for PID file and Display Sequence file
