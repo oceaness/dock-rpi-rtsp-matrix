@@ -21,6 +21,12 @@ this will perform the following actions:
 After these actions are complete you will need to reboot your Pi for the config changes to take effect.
 
 # Configuration
-Before you can run the container you will need to minimally provide some video feed URLs in the feeds.conf file.
+Before you can run the container there are only two conf files you must edit. The first is to enter your list of feed URLs in feeds.conf and second, if you want more than 1 feed on the screen at a time, edit the on_screen option in pi_video_matrix.conf.
 
 Instructions for how to do this and the rest of the configuration options are are contained within the config files and in the README.md within the [conf directory](conf).
+
+# Container actions
+Once you have made the necessary configuration changes, you can start, stop and remove the container using the standard docker-compose functions. Start it using `docker-compose up -d`. After a few seconds the Raspberry Pi's monitor should go blank and video feeds should start appearing one by one. Stop the container by running `docker-compose down`.
+
+# Credit
+Much of the code contained herein borrows heavily from [Anonymousdog/displaycameras](https://github.com/Anonymousdog/displaycameras)
