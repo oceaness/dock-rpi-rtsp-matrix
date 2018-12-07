@@ -19,9 +19,9 @@ sleep_func () {
 conf=/etc/pi_video_matrix
 
 if [ -r /etc/pi_video_matrix/scheduler.conf ]; then
-	. $conf/schedule.conf;
+	. $conf/scheduler.conf;
 else
-	echo "$conf/schedule.conf does not exist or is not readable."
+	echo "$conf/scheduler.conf does not exist or is not readable."
 exit 1
 fi
 
