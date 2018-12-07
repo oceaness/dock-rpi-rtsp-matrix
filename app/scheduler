@@ -3,17 +3,14 @@
 trap cleanup TERM
 cleanup () {
 	echo "Stopping pi_video_matrix"
-	pi_video_matrix stop
+	if [ -f "/var/run/pi_video_matrix.pid" ]; then
+		pi_video_matrix stop
+	fi
+	vcgencmd display_power 1
 	if [ -n "$pid" ]; then
 		kill "$pid"
 	fi
 	exit 0
-}
-
-sleep_func () {
-	sleep "$1" & pid=$!
-	wait
-	pid=
 }
 
 conf=/etc/pi_video_matrix
@@ -25,85 +22,89 @@ else
 exit 1
 fi
 
+sleep_func () {
+	sleep "$1" & pid=$!
+	wait
+	pid=
+}
+
+pvm_stop () {
+	if [ -f "/var/run/pi_video_matrix.pid" ]; then
+		pi_video_matrix stop
+	fi
+	vcgencmd display_power 0
+}
+
+pvm_start () {
+	vcgencmd display_power 1
+	pi_video_matrix start &
+	wait
+}
+
+open_test () {
+	[ "$(date +%H%M)" -ge "$1" ] && [ "$(date +%H%M)" -le "$2" ]
+}
+
+closed_test () {
+	[ "$(date +%H%M)" -le "$1" ] || [ "$(date +%H%M)" -ge "$2" ]
+}
+
+open_loop () {
+	while [ "$(date +%H%M)" -ge "$1" ] && [ "$(date +%H%M)" -le "$2" ]; do
+		pi_video_matrix repair
+		sleep_func 60
+	done
+}
+
+closed_loop () {
+	while [ "$(date +%H%M)" -le "$1" ] || [ "$(date +%H%M)" -ge "$2" ]; do
+		sleep_func 60
+	done
+}
+
+on_loop () {
+	while [ "$(date +%w)" -eq "$1" ]; do
+		pi_video_matrix repair
+		sleep_func 60
+	done
+}
+
+off_loop () {
+	while [ "$(date +%w)" -eq "$1" ]; do
+		sleep_func 60
+	done
+}
+
+dow_test () {
+	if [ -z "$1" ] || [ -z "$2" ]; then
+		# On
+		pvm_start
+		on_loop "$3"
+	elif [ "$1" = "$2" ]; then
+		# Off
+		pvm_stop
+		off_loop "$3"
+	elif open_check "$1" "$2"; then
+		# Open
+		pvm_start
+		open_loop "$1" "$2"
+	elif closed_check "$1" "$2"; then
+		# Closed
+		pvm_stop
+		closed_loop "$1" "$2"
+	fi
+}
+
 while true; do
 	dow=$(date +%w)
 	if [ "$dow" -eq 0 ]; then
-		# Sunday
-		if [ "$sun_on" = "" ] || [ "$sun_off" = "" ]; then
-			# Off
-			sleep_func 3600
-		elif [ "$(date +%H%M)" -ge "$sun_on" ] && [ "$(date +%H%M)" -le "$sun_off" ]; then
-		# On
-			vcgencmd display_power 1
-			if [ ! -f "/var/run/pi_video_matrix.pid" ]; then
-				pi_video_matrix start &
-				wait
-			fi
-			while [ "$(date +%H%M)" -ge "$sun_on" ] && [ "$(date +%H%M)" -le "$sun_off" ]; do
-				pi_video_matrix repair
-				sleep_func 60
-			done
-		elif [ "$(date +%H%M)" -le "$sun_on" ] || [ "$(date +%H%M)" -ge "$sun_off" ]; then
-		# Closed
-			if [ -f "/var/run/pi_video_matrix.pid" ]; then
-				pi_video_matrix stop
-			fi
-			vcgencmd display_power 0
-			while [ "$(date +%H%M)" -le "$sun_on" ] || [ "$(date +%H%M)" -ge "$sun_off" ]; do
-				sleep_func 60
-			done
-		fi
+		#Sunday
+		dow_test "$sun_on" "$sun_off" "$dow"
 	elif [ "$dow" -eq 6 ]; then
 		# Saturday
-		if [ "$sat_on" = "" ] || [ "$sat_off" = "" ]; then
-			# Off
-			sleep_func 3600
-		elif [ "$(date +%H%M)" -ge "$sat_on" ] && [ "$(date +%H%M)" -le "$sat_off" ]; then
-		# On
-			vcgencmd display_power 1
-			if [ ! -f "/var/run/pi_video_matrix.pid" ]; then
-				pi_video_matrix start &
-				wait
-			fi
-			while [ "$(date +%H%M)" -ge "$sat_on" ] && [ "$(date +%H%M)" -le "$sat_off" ]; do
-				pi_video_matrix repair
-				sleep_func 60
-			done
-		elif [ "$(date +%H%M)" -le "$sat_on" ] || [ "$(date +%H%M)" -ge "$sat_off" ]; then
-		# Closed
-			if [ -f "/var/run/pi_video_matrix.pid" ]; then
-				pi_video_matrix stop
-			fi
-			vcgencmd display_power 0
-			while [ "$(date +%H%M)" -le "$sat_on" ] || [ "$(date +%H%M)" -ge "$sat_off" ]; do
-				sleep_func 60
-			done
-		fi
+		dow_test "$sat_on" "$sat_off" "$dow"
 	else
 		# Weekday
-		if [ "$weekday_on" = "" ] || [ "$weekday_off" = "" ]; then
-		# Off
-			sleep_func 3600
-		elif [ "$(date +%H%M)" -ge "$weekday_on" ] && [ "$(date +%H%M)" -le "$weekday_off" ]; then
-		# On
-			vcgencmd display_power 1
-			if [ ! -f "/var/run/pi_video_matrix.pid" ]; then
-				pi_video_matrix start &
-				wait
-			fi
-			while [ "$(date +%H%M)" -ge "$weekday_on" ] && [ "$(date +%H%M)" -le "$weekday_off" ]; do
-				pi_video_matrix repair
-				sleep_func 60
-			done
-		elif [ "$(date +%H%M)" -le "$weekday_on" ] || [ "$(date +%H%M)" -ge "$weekday_off" ]; then
-		# Closed
-			if [ -f "/var/run/pi_video_matrix.pid" ]; then
-				pi_video_matrix stop
-			fi
-			vcgencmd display_power 0
-			while [ "$(date +%H%M)" -le "$weekday_on" ] || [ "$(date +%H%M)" -ge "$weekday_off" ]; do
-				sleep_func 60
-			done
-		fi
+		dow_test "$weekday_on" "$weekday_off" "$dow"
 	fi
 done

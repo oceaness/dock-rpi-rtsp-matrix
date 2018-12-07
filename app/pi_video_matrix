@@ -36,8 +36,11 @@ if [ -r $conf_dir/layout.conf ]; then
 	. $conf_dir/layout.conf
 else
 	feeds=${#camera_feeds[@]}
-	if [ -z "$on_screen" ]; then
+	echo $on_screen
+	echo $feeds
+	if [ -z "$on_screen" ] || [ "$on_screen" -gt "$feeds" ]; then
 		on_screen=$feeds
+		echo $feeds
 	fi
 	# Generate default layout conf file
 	gen_matrix "$on_screen" "$stretch" "$feeds"
