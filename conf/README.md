@@ -22,7 +22,7 @@ The `on_screen` option allows you to specify how many video feeds you want visib
 The default value is 1, which equates to 1 full-screen feed and no matrix.
 
 <pre>
-       4 windows                            6 windows                              7 windows
+       4 windows                            6 windows                              9 windows
        2 x 2 grid                     3 x 3 grid with 1 large                      3 x 3 grid
  _____________________                 _____________________                 _____________________
 |  ________ ________  |  _____        |  ___________ _____  |  _____        |  _____ _____ _____  |  _____
