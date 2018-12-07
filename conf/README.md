@@ -12,7 +12,7 @@ If any variables are left blank defaults will be used.
 In it you can configure the following options:
 
 ### Display blanking - `blank`
-The `blank` option will black out the Raspberry Pi's display to hide the command line boot text whilst the cameras are loading. It is recommended that you enable this setting by setting it to blank=true.
+The `blank` option will black out the Raspberry Pi's display to hide the command line boot text whilst the cameras are loading. It is recommended that you enable this setting by setting it to `blank=true`.
 
 It is disabled by default.
 
@@ -46,7 +46,7 @@ The `rotatedelay` option determines how often video feeds are rotated, in second
 
 The default value is 5.
 
-The `rotaterev` option reverse the direction the windows are rotated. By default windows are rotated from bottom right to top left.
+The `rotaterev` option reverses the direction the windows are rotated. By default windows are rotated from bottom right to top left. When `rotaterev=true` they rotate from top left to bottom right instead.
 
 This is disabled by default.
 
@@ -55,19 +55,19 @@ The `omx_timeout` option specifies the network timeout for omxplayer, if you exp
 
 The default value is 30.
 
-The `startsleep` and `feedsleep` options determine how long the program will wait for omxplayer to establish a connection to a video a feed. Again as per the above if you experience issues establishing connections to your feeds you can try to increase these values.
+The `startsleep` and `feedsleep` options determine how long the program will wait for omxplayer to establish a connection to a video a feed. Again, if you experience issues establishing connections to your feeds you can try to increase these values.
 
 The default value for `startsleep` is 3.
 The default value for `feedlseep` is 1.
 
 ## feeds.conf
-This configuration file is the only one you must make some amendments to if you want the container to do anything, where you need to list your video feeds, one per line. You can add text comments or comment out lines using # character.
+This configuration file is the only one you must edit, without a list of video feed URLs the container cannot do anything. You need to list your video feeds, one per line. You can add text comments or comment out lines using # character.
 
 ## schedule.conf
 Most monitors are not designed to be run 24x7, doing so will drastically shorten it's lifespan. If you monitor supports sleeping when there's no video input, you can configure times for the system to automatically switch on and off. If either field in each on/off pair is left blank, the system will remain off. Computer monitors will almost certainly support this, TV's however are only just catching up, some will now switch into standby mode when there is no video signal and switch back on when the video signal resumes.
 
 Please enter times in 24 hour notation with no additional characters  
-Example: `weekday_on=0600`
+Example: `weekday_on=0615`
 
 By default the schedule is permanently on.
 

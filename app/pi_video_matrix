@@ -15,10 +15,10 @@ fi
 # sed command removes Windows carriage returns, # comments, and then deletes empty lines
 # Exit if feeds file not present and readable
 if [ -r $conf_dir/feeds.conf ]; then
-	# Exit if feeds files still contains placeholder text
-	if sed -e 's/\r//' -e 's/#.*//' -e '/^$/d' $conf_dir/feeds.conf | grep -Fq "<Camera_stream_URL>"; then
-		echo "$conf_dir/feeds.conf has either not been edited or still contains placeholder text."
-		echo "Finish adding your feed URLs and remove or comment out any remaining placeholder text."
+	# Exit if feeds files is empty
+	if [ "$(sed -e 's/\r//' -e 's/#.*//' -e '/^$/d' $conf_dir/feeds.conf | wc -c)" -eq 0 ]; then
+		echo "$conf_dir/feeds.conf has not been edited."
+		echo "Please provide a list of video feed URLs."
 		exit 1
 	else
 		# Create an array of feeds from feeds.conf
