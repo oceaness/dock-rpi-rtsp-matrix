@@ -84,11 +84,11 @@ dow_test () {
 		# Off
 		pvm_stop
 		off_loop "$3"
-	elif open_check "$1" "$2"; then
+	elif open_test "$1" "$2"; then
 		# Open
 		pvm_start
 		open_loop "$1" "$2"
-	elif closed_check "$1" "$2"; then
+	elif closed_test "$1" "$2"; then
 		# Closed
 		pvm_stop
 		closed_loop "$1" "$2"
@@ -96,15 +96,9 @@ dow_test () {
 }
 
 while true; do
-	dow=$(date +%w)
-	if [ "$dow" -eq 0 ]; then
-		#Sunday
-		dow_test "$sun_on" "$sun_off" "$dow"
-	elif [ "$dow" -eq 6 ]; then
-		# Saturday
-		dow_test "$sat_on" "$sat_off" "$dow"
-	else
-		# Weekday
-		dow_test "$weekday_on" "$weekday_off" "$dow"
-	fi
+	dow_num=$(date +%w)
+	dow_day=$(date +%a)
+	eval arg1=\$${dow_day}_on
+	eval arg2=\$${dow_day}_off
+	dow_test "$arg1" "$arg2" "$dow_num"
 done
