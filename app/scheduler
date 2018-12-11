@@ -98,7 +98,7 @@ dow_test () {
 while true; do
 	dow_num=$(date +%w)
 	dow_day=$(date +%a)
-	eval arg1=\$${dow_day}_on
-	eval arg2=\$${dow_day}_off
+	eval arg1=\$"${dow_day}"_on
+	eval arg2=\$"${dow_day}"_off
 	dow_test "$arg1" "$arg2" "$dow_num"
 done

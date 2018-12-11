@@ -41,27 +41,31 @@ column_width=$((matrix_width/columns))
 row_height=$((matrix_height/rows))
 
 # Build matrix coordinates for on-screen windows
+count=1
 for row in $(seq 1 $rows); do
 	for col in $(seq 1 $columns); do
-		y1=$((row_height*(row-1)))
-		y2=$((row_height*row))
-		x1=$((column_width*(col-1)))
-		x2=$((column_width*col))
-		if [ "$large" = "true" ]; then
-			if [ "$row" = 1 ] && [ "$col" = 1 ]; then
-				y2=$((y2*2))
-				x2=$((x2*2))
-			elif [ "$row" = 1 ] && [ "$col" = 2 ]; then
-				unset y1 y2 x1 x2
-			elif [ "$row" = 2 ] && [ "$col" = 1 ]; then
-				unset y1 y2 x1 x2
-			elif [ "$row" = 2 ] && [ "$col" = 2 ]; then
-				unset y1 y2 x1 x2
+		if [ "$count" -le "$1" ]; then
+			y1=$((row_height*(row-1)))
+			y2=$((row_height*row))
+			x1=$((column_width*(col-1)))
+			x2=$((column_width*col))
+			if [ "$large" = "true" ]; then
+				if [ "$row" = 1 ] && [ "$col" = 1 ]; then
+					y2=$((y2*2))
+					x2=$((x2*2))
+				elif [ "$row" = 1 ] && [ "$col" = 2 ]; then
+					unset y1 y2 x1 x2
+				elif [ "$row" = 2 ] && [ "$col" = 1 ]; then
+					unset y1 y2 x1 x2
+				elif [ "$row" = 2 ] && [ "$col" = 2 ]; then
+					unset y1 y2 x1 x2
+				fi
 			fi
-		fi
-		if [ -n "$x1" ] && [ -n "$y1" ] && [ -n "$x2" ] && [ -n "$y2" ]; then
-			window_positions="$window_positions\"$x1 $y1 $x2 $y2\" \\"$'\n'
-			windows="${windows}r${row}_c$col "
+			if [ -n "$x1" ] && [ -n "$y1" ] && [ -n "$x2" ] && [ -n "$y2" ]; then
+				window_positions="$window_positions\"$x1 $y1 $x2 $y2\" \\"$'\n'
+				windows="${windows}r${row}_c$col "
+				((count++))
+			fi
 		fi
 	done
 done
