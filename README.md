@@ -29,4 +29,4 @@ Instructions for how to do this and the rest of the configuration options are ar
 Once you have made the required configuration changes, you can start, stop and remove the container using the standard docker-compose functions. Start it using `docker-compose up -d`. After a few seconds the Raspberry Pi's monitor should go blank and video feeds should start appearing one by one. Stop the container by running `docker-compose down`.
 
 # Credit
-Much of the code contained herein borrows heavily from [Anonymousdog/displaycameras](https://github.com/Anonymousdog/displaycameras)
+Much of the code contained herein borrows heavily from [Anonymousdog/displaycameras](https://github.com/Anonymousdog/displaycameras).

@@ -6,9 +6,7 @@ cleanup () {
 	if [ -n "$pid" ]; then
 		kill "$pid"
 	fi
-	if [ -f "/var/run/pi_video_matrix.pid" ]; then
-		pi_video_matrix stop
-	fi
+	pi_video_matrix stop
 	vcgencmd display_power 1
 	exit 0
 }
