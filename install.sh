@@ -46,9 +46,9 @@ else
 	curl -sSL https://get.docker.com | sh  > /dev/null
 fi
 
-# If  pi user is not in docker group
+# If  pi user is not in docker user group
 if ! groups pi | grep -q 'docker'; then
-	echo "Adding pi user to docker usergroup"
+	echo "Adding pi user to docker user group"
 	sudo usermod -aG docker pi
 fi
 
@@ -92,4 +92,4 @@ if [ -e /run/sshwarn ] ; then
 fi
 
 echo "Please reboot your pi for the settings to take effect"
-echo "After rebooting please see the README.md file in the conf directory"
+echo "After rebooting please see the README.md files in the pi_video_matrix and conf directories for further instructions"

@@ -21,7 +21,7 @@ this will perform the following actions:
 After these actions are complete you will need to reboot your Pi for the config changes to take effect.
 
 # Configuration
-Before you can run the container there are two conf files you must edit. The first is to enter your list of feed URLs in feeds.conf, and second, if you want more than 1 feed on the screen at a time, edit the on_screen option in pi_video_matrix.conf.
+Before you can run the container you must edit feeds.conf.
 
 Instructions for how to do this and the rest of the configuration options are are contained within the config files and in the README.md within the [conf directory](conf).
 
