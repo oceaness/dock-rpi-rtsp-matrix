@@ -3,13 +3,13 @@
 trap cleanup TERM
 cleanup () {
 	echo "Stopping pi_video_matrix"
+	if [ -n "$pid" ]; then
+		kill "$pid"
+	fi
 	if [ -f "/var/run/pi_video_matrix.pid" ]; then
 		pi_video_matrix stop
 	fi
 	vcgencmd display_power 1
-	if [ -n "$pid" ]; then
-		kill "$pid"
-	fi
 	exit 0
 }
 
@@ -36,8 +36,9 @@ pvm_stop () {
 
 pvm_start () {
 	vcgencmd display_power 1
-	pi_video_matrix start &
+	pi_video_matrix start & pid=$!
 	wait
+	pid=
 }
 
 open_test () {
