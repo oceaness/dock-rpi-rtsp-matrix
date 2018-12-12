@@ -86,8 +86,6 @@ for file in "${conf_files[@]}"; do
 	wget -qO ~/pi_video_matrix/conf/"$file" https://github.com/oceaness/pi_video_matrix/raw/master/conf/"$file"
 done
 
-#sudo rpi-update > /dev/null 2>&1
-
 # Check if pi user password has been changed
 if [ -e /run/sshwarn ] ; then
 	printf "\nThe password for the user 'pi' is still the default value, please change this by running passwd\n\n"
