@@ -67,16 +67,16 @@ This configuration file is the only one you must edit, without a list of video f
 Most monitors are not designed to be run 24x7, doing so will drastically shorten it's lifespan. If you monitor supports sleeping when there's no video input, you can configure times for the system to automatically switch on and off. If either field in each on/off pair is left blank, the system will remain off. Computer monitors will almost certainly support this, TV's however are only just catching up, some will now switch into standby mode when there is no video signal and switch back on when the video signal resumes.
 
 1. To set the system on all day, leave either or both the on/off fields blank:  
-   `Mon_on=`  
-   `Mon_off=`
+ `Mon_on=`  
+ `Mon_off=`
 
 1. To turn the system off all day, set both fields to identical values:  
-   `Mon_on=off`  
-   `Mon_off=off`
+ `Mon_on=off`  
+ `Mon_off=off`
 
 1. To set the system to come on at 06:15 and go off at 17:15, enter times in 24 hour notation with no additional characters:  
-   `Mon_on=0615`  
-   `Mon_off=1715`
+ `Mon_on=0615`  
+ `Mon_off=1715`
 
 By default the schedule is permanently on.
 
