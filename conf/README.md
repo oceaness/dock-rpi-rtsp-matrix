@@ -17,9 +17,9 @@ This is the configuration file for the pi_video_matrix program intended to displ
 If any options are left blank defaults will be used.
 
 ### Display blanking - `blank`
-The `blank` option will black out the Raspberry Pi's display to hide the command line boot text whilst the cameras are loading. It is recommended that you enable this setting by setting it to `blank=true`.
+The `blank` option will black out the Raspberry Pi's display to hide the command line boot text whilst the cameras are loading. To disable it set `blank=off`.
 
-It is disabled by default.
+It is enabled by default.
 
 ### Number of visible feeds - `on_screen`
 The `on_screen` option allows you to adjust how many video feeds you want visible on the monitor. There are 3 matrices that can be configured automatically, these are shown below.

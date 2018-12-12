@@ -26,7 +26,7 @@ Before you can run the container you must edit feeds.conf.
 Instructions for how to do this and the rest of the configuration options are are contained within the config files and in the README.md within the [conf directory](conf).
 
 # Container actions
-Once you have made the necessary configuration changes, you can start, stop and remove the container using the standard docker-compose functions. Start it using `docker-compose up -d`. After a few seconds the Raspberry Pi's monitor should go blank and video feeds should start appearing one by one. Stop the container by running `docker-compose down`.
+Once you have made the required configuration changes, you can start, stop and remove the container using the standard docker-compose functions. Start it using `docker-compose up -d`. After a few seconds the Raspberry Pi's monitor should go blank and video feeds should start appearing one by one. Stop the container by running `docker-compose down`.
 
 # Credit
 Much of the code contained herein borrows heavily from [Anonymousdog/displaycameras](https://github.com/Anonymousdog/displaycameras)

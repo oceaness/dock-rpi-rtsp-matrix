@@ -64,6 +64,11 @@ if [ -z "$retry" ]; then
 	retry=5
 fi
 
+# Turn blanking on by default
+if [ -z "$blank" ]; then
+	blank=true
+fi
+
 # Set a variables for PID file and Display Sequence file
 PIDFILE=/var/run/pi_video_matrix.pid
 DISPLAY_SEQUENCE_FILE=/tmp/pi_video_matrix.seq
