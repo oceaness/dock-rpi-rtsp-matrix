@@ -92,4 +92,4 @@ if [ -e /run/sshwarn ] ; then
 fi
 
 echo "Please reboot your pi for the settings to take effect"
-echo "After rebooting please see the pi_video_matrix.conf file in the conf directory"
+echo "After rebooting please see the README.md file in the conf directory"

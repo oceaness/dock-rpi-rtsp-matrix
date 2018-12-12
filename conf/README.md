@@ -2,14 +2,19 @@
 
 There are a few config files in this directory, please see below for information about each one.
 
-For a minimal configuration there are two conf files you must edit. The first is to enter your list of feed URLs in feeds.conf, and second, if you want more than 1 feed on the screen at a time, edit the `on_screen` option in pi_video_matrix.conf.
+To achieve a minimal working configuration you need to enter your list of feed URLs in feeds.conf
+
+## feeds.conf
+This configuration file is the only one you must edit, without a list of video feed URLs the container cannot do anything. You need to list your video feeds, one per line. You can add text comments or comment out lines using # character.
+
+It is recommended to start with low resolution feeds as the Raspberry Pi's downscaling capability is limited. Upscaling is fine.
+
+You can attempt to use higher resolution feeds, but please bear in mind performance will be based on the number of feeds and your specific Pi hardware. Monitor your Raspberry Pi's resource availability if attempting to run higher res feeds, a tool like `htop` is recommended for this and is easily installable via `apt install htop`.
 
 ## pi_video_matrix.conf
 This is the configuration file for the pi_video_matrix program intended to display a matrix of video feeds such as those from a CCTV camera system (there is a known compatibility issue with Hikvision cameras).
 
-If any variables are left blank defaults will be used.
-
-In it you can configure the following options:
+If any options are left blank defaults will be used.
 
 ### Display blanking - `blank`
 The `blank` option will black out the Raspberry Pi's display to hide the command line boot text whilst the cameras are loading. It is recommended that you enable this setting by setting it to `blank=true`.
@@ -17,9 +22,9 @@ The `blank` option will black out the Raspberry Pi's display to hide the command
 It is disabled by default.
 
 ### Number of visible feeds - `on_screen`
-The `on_screen` option allows you to specify how many video feeds you want visible on screen at one time. There are 3 matrices that can be configured automatically, these are shown below.
+The `on_screen` option allows you to adjust how many video feeds you want visible on the monitor. There are 3 matrices that can be configured automatically, these are shown below.
 
-The default value is 1, which equates to 1 full-screen feed and no matrix.
+The default value is the number of feeds in your feeds.conf file.
 
 <pre>
        4 windows                            6 windows                              9 windows
@@ -60,9 +65,6 @@ The `startsleep` and `feedsleep` options determine how long the program will wai
 The default value for `startsleep` is 3.
 The default value for `feedlseep` is 1.
 
-## feeds.conf
-This configuration file is the only one you must edit, without a list of video feed URLs the container cannot do anything. You need to list your video feeds, one per line. You can add text comments or comment out lines using # character.
-
 ## schedule.conf
 Most monitors are not designed to be run 24x7, doing so will drastically shorten it's lifespan. If you monitor supports sleeping when there's no video input, you can configure times for the system to automatically switch on and off. If either field in each on/off pair is left blank, the system will remain off. Computer monitors will almost certainly support this, TV's however are only just catching up, some will now switch into standby mode when there is no video signal and switch back on when the video signal resumes.
 
@@ -78,7 +80,7 @@ Most monitors are not designed to be run 24x7, doing so will drastically shorten
  `Mon_on=0615`  
  `Mon_off=1715`
 
-By default the schedule is permanently on.
+By default the schedule is on 24/7.
 
 ## example.layout.conf
 This file explains how you can create your own matrix if you don't like the default options. You can create the file layout.conf or rename example.layout.conf and edit that in place. This will cause the default.layout.conf to not be created/updated when the program is run and it will load your layout instead.
