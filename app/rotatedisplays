@@ -1,6 +1,12 @@
 #!/bin/bash
 
+if [ -z "$1" ] || [ -z "$2" ]; then
+	echo "Rotation error, missing rotate style or rotate delay arguments"
+	exit 1
+fi
+
 while true; do
+	echo "rotate sleeping for $2 seconds"
 	sleep "$2"
 	pi_video_matrix "$1" >/dev/null 2>&1
 done

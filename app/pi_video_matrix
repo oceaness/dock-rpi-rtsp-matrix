@@ -64,6 +64,11 @@ if [ -z "$retry" ]; then
 	retry=5
 fi
 
+# Ensure there is a rotatedelay value
+if [ -z "$rotatedelay" ]; then
+	rotatedelay=5
+fi
+
 # Turn blanking on by default
 if [ -z "$blank" ]; then
 	blank=true
@@ -151,9 +156,6 @@ echo "Camera Display Started"
 echo "For complete status info, run"
 echo "/usr/bin/pi_video_matrix status."
 if [ "$rotate" = "true" ]; then
-	if [ "$rotatedelay" = "" ]; then
-		rotatedelay=5
-	fi
 	echo "Starting camera rotation"
 	if [ "$rotaterev" = "true" ]; then
 		rotatedisplays rotaterev $rotatedelay &
@@ -246,13 +248,12 @@ for i in ${!camera_names[*]}; do
 			echo "${camera_names[$i]} failed playback"
 		fi
 		touch $PIDFILE
-		if [ "$rotate" = "true" ]; then
-			if [ "$rotatedelay" = "" ]; then
-				rotatedelay=5
-			fi
-			if [ "$2" != "startup" ]; then
-				echo "Restarting camera rotation"
-				rotatedisplays $rotatedelay &
+		if [ "$rotate" = "true" ] && [ "$2" != "startup" ]; then
+			echo "Restarting camera rotation"
+			if [ "$rotaterev" = "true" ]; then
+				rotatedisplays rotaterev $rotatedelay &
+			else
+				rotatedisplays rotate $rotatedelay &
 			fi
 		fi
 	fi
