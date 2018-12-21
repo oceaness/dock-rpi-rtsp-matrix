@@ -43,7 +43,7 @@ if docker -v > /dev/null 2>&1; then
 	echo "Docker already installed"
 else
 	echo "Installing Docker"
-	curl -sSL https://get.docker.com | sh
+	curl -sSL https://get.docker.com | sh > /dev/null
 fi
 
 # If  pi user is not in docker user group
