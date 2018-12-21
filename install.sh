@@ -43,7 +43,7 @@ if docker -v > /dev/null 2>&1; then
 	echo "Docker already installed"
 else
 	echo "Installing Docker"
-	curl -sSL https://get.docker.com | sh > /dev/null
+	curl -sSL https://get.docker.com | sh > /dev/null 2>&1
 fi
 
 # If  pi user is not in docker user group
@@ -60,11 +60,11 @@ else
 		echo "pip already installed"
 	else
 		echo "Installing python and pip"
-		sudo apt update 2>&1 /dev/null
-		sudo apt install -y python python-pip 2>&1 /dev/null
+		sudo apt update /dev/null 2>&1
+		sudo apt install -y python python-pip /dev/null 2>&1
 	fi
 	echo " Installing docker-compose"
-	sudo pip install docker-compose 2>&1 /dev/null
+	sudo pip install docker-compose /dev/null 2>&1
 fi
 
 # If pi_video_matrix directory doesn't exist create it
