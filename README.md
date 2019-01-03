@@ -18,7 +18,7 @@ this will perform the following actions:
 6. Create pi_video_matrix and conf directory in home
 7. Download docker-compose.yml and conf files
 
-**_Important: After these actions are complete you will need to reboot your Pi for the config changes to take effect._**
+**_Important: After these actions are complete you will need to reboot your Pi for the configuration changes to take effect._**
 
 # Configuration
 Before you can run the container you must edit feeds.conf.
