@@ -206,6 +206,7 @@ fi
 # The actual repair part
 for i in ${!camera_names[*]}; do
 	if [ "$(omxplayer_dbuscontrol "${camera_names[$i]}" getplaystatus)" != "Playing" ] || [ "$(omxplayer_dbuscontrol "${camera_names[$i]}" getposition)" = "0s" ]; then
+		repair_status=true
 		rm -f $PIDFILE
 		pkill rotatedisplays
 		omxplayer_dbuscontrol "${camera_names[$i]}" quit
@@ -258,6 +259,9 @@ for i in ${!camera_names[*]}; do
 		fi
 	fi
 done
+if [ "$repair_status" != "true" ]; then
+	echo "Repair not required"
+fi
 ;;
 
 rotate)
